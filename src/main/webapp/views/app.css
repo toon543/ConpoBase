@@ -1,36 +1,116 @@
 /* app css stylesheet */
+.whole-page {
+    padding: 0.5cm 0 0 3cm;
+    background-color: black;
+}
+footer{
+    color: white;
+    font-size: 150%;
+    padding: 0 8cm 0 8cm;
+}
+a:link {
+    color: #ffffff;
+}
+
+/* visited link */
+a:visited {
+    color: #ffffff;
+}
+
+/* mouse over link */
+a:hover {
+    color: #ffffff;
+}
+
+/* selected link */
+a:active {
+    color: #ffffff;
+}
 
 .menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
+    color: white;
+    font-size: 150%;
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
 }
 
 .menu > li {
-  display: inline;
+    margin-right: 1cm;
+    display: inline;
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+.menu1 {
+    color: white;
+    font-size: 150%;
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
 }
 
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+
+.home{
+    font-size: 210%; !important;
 }
 
-.error { display: block; float: none; color: red; padding-left: 11.5em; vertical-align: top; }
+
+.error { float: none; color: red; padding-left: 11.5em; vertical-align: top; }
 
 .thumbnail {
-  max-width: 200px; max-height: 150px; line-height: 20px; margin-bottom: 5px;
+    max-width: 200px; max-height: 150px; line-height: 20px; margin-bottom: 5px;
+}
+
+.slider {
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    background: #000000;
+    margin-top: 20px;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.arrow {
+    position: absolute;
+    z-index: 1002;
+    display: block;
+    top: 50%;
+    margin-top: -35px;
+    width: 36px;
+    height: 71px;
+    outline: none;
+    cursor: pointer;
+    background: url(pic/b.gif) no-repeat;
+}
+
+.arrow.prev {
+    opacity: 0.2;
+    left: 20px;
+    background-image: url(pic/p1.png);
+    transition: 0.2s linear all;
+}
+
+.arrow.next {
+    opacity: 0.2;
+    right: 20px;
+    background-image: url(pic/n1.png);
+    transition: 0.2s linear all;
+    padding: 0 0 0 10cm;
+}
+
+.arrow.prev:hover {
+    opacity: 1;
+    background-image: url(pic/p2.png);
+}
+
+.arrow.next:hover {
+    opacity: 1;
+    background-image: url(pic/n2.png);
 }

@@ -1,0 +1,67 @@
+
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="addSuccess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    <strong>Success!</strong> Success adding a new Activity
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="editSuccess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    <strong>Success!</strong> Success edit the Activity
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="deleteSucess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    <strong>Success!</strong> Success delete the Activity
+</div>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Activities
+        <li><a href="#/addActivity" class="navbar-link" style="color: orange">Add Activity</a></li>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-4" >
+        </div>
+        <div class="col-lg-6" >
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="name..." ng-model="name"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="searchProduct(name)">Search</button>
+                </span>
+            </div>
+            <!-- /input-group -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+
+    <!-- Table -->
+    <table class="table table-hover">
+        <tr>
+            <th>#</th>
+            <th translate>listActivity.name </th>
+            <th translate>listActivity.description</th>
+
+            <th class="text-right" translate>listActivity.type</th>
+            <th class="text-center" translate>listActivity.picture</th>
+            <th translate ng-show="hasRole('admin')">listActivity.edit</th>
+            <th translate ng-show="hasRole('admin')">listActivity.delete</th>
+
+
+        </tr>
+        <tr ng-repeat="activity in activities">
+            <td>{{$index+1}}</td>
+            <td>{{activity.name}}</td>
+            <td>{{activity.description}}</td>
+            <td class="text-right" >{{activity.type}}</td>
+            <td >
+                <div ng-repeat="image in activity.images" class="text-center" >
+                    <img ng-src="data:{{image.contentType}};base64,{{image.content}}" class="thumbnail">
+                </div>
+            </td>
+            <td class="text-center" ng-show="hasRole('admin')"><a ng-href="#/activity/{{activity.id}}"> <span class="glyphicon glyphicon-edit" style="color: orange" aria-hidden="true"></span></a></td>
+            <td class="text-center" ng-show="hasRole('admin')"><a ng-href="#/activitylist"><span class="glyphicon glyphicon-remove-circle" style="color: orange" aria-hidden="true" ng-click="deleteActivity(activity.id)"></span></a></td>
+
+        </tr>
+
+    </table>
+</div>

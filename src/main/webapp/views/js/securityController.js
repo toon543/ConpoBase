@@ -2,13 +2,14 @@
 var securityController = angular.module('securityControllers',['securityServices','ngCookies']);
 securityController.controller('loginController',['$scope','$rootScope','$location','$cookieStore','UserService',
     function($scope, $rootScope, $location, $cookieStore, UserService){
-        $scope.rememberMe = false;
+        $scope.rememberMe = true;
         $scope.login = function(){
             UserService.authenticate($.param({username:$scope.username,password:$scope.password}),
-                //success connection
-            function(authenticationResult){
+                            //success connection
+                function(authenticationResult){
                 var authToken = authenticationResult.token;
                 $rootScope.authToken = authToken;
+
                 if ($scope.rememberMe){
                     $cookieStore.put('authToken',authToken);
                 }
@@ -17,23 +18,23 @@ securityController.controller('loginController',['$scope','$rootScope','$locatio
                     $location.path("/")
                 })
             }, // unsuccess connection
-                function(error){
-                    if (error.status == "401"){
-                        $rootScope.error =" user name or passoword is not correct";
-                    }
-                })
+                            function(error){
+                                if (error.status == "401"){
+                                    $rootScope.error =" user name or password is not correct";
+                                }
+                            })
         }
-    }]);
+        }])
 
 
-var securityService  = angular.module('securityServices',['ngResource']);
-securityService.factory('UserService',function($resource){
+
+    var securityService  = angular.module('securityServices',['ngResource']); +securityService.factory('UserService',function($resource){
     return $resource('user/:action',{},
         {
             authenticate:{
-                method: 'POST',
+        method: 'POST',
                 params: {'action' : 'authenticate'},
                 header: {'Content-Type':'application/x-www-form-urlencoded'}
             }
         })
-});
+})

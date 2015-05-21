@@ -1,62 +1,83 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var labApp = angular.module('labApp', [
+var prejectApp = angular.module('prejectApp', [
     'ngRoute',
-    'productMainController',
+    'ngAnimate',
+    'homeControllers',
+    'securityControllers',
+    'registerControllers',
+    'historyControllers',
+    'activityMainControllers',
+    'questionMainControllers',
     'languageControllers',
     'languageServices',
     'pascalprecht.translate',
-    'shoppingCartControllers',
     'flow',
     'securityControllers'
 ])
-labApp.config(['$routeProvider',
-  function($routeProvider) {
-  $routeProvider.
-      when('/addProduct',{
-          templateUrl: 'template/editProduct.html',
-          controller: 'addProductController'
-      }).
-      when('/editProduct/:id',{
-          templateUrl: 'template/editProduct.html',
-          controller: 'editProductController'
-      }).
-      when('/listProduct',{
-          templateUrl: 'template/productList.html',
-          controller: 'listProductController'
-      }).
-      when('/shoppingCart',{
-          templateUrl: 'template/shoppingCart.html',
-          controller: 'showShoppingCartController'
-      }).
-       otherwise({redirectTo: '/listProduct'});
-}]);
+prejectApp.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/home',{
+                templateUrl: 'template/home.html',
+                controller: 'homeController'
+            }).
+            when('/register',{
+                templateUrl: 'template/register.html',
+                controller: 'addUserController'
+            }).
+            when('/map',{
+                templateUrl: 'template/map.html',
+                controller: ''
+            }).
+            when('/history',{
+                templateUrl: 'template/history.html',
+                controller: 'showHistoryController'
+            }).
+            when('/history/:id',{
+                templateUrl: 'template/editHistory.html',
+                controller: 'editHistoryController'
+            }).
+            when('/contact',{
+                templateUrl: 'template/contact.html',
+                controller: ''
+            }).
+            when('/activity',{
+                templateUrl: 'template/activitylist.html',
+                controller: 'listActivityController'
+            }).
+            when('/addActivity',{
+                templateUrl: 'template/addActivity.html',
+                controller: 'addActivityController'
+            }).
+            when('/activity/:id',{
+                templateUrl: 'template/activity.html',
+                controller: 'editActivityController'
+            }).
+            when('/edit/:id',{
+                templateUrl: 'template/addActivity.html',
+                controller: 'editActivityController'
+            }).
+            when('/question',{
+                templateUrl: 'template/questionList.html',
+                controller: 'listQuestionController'
+            }).
+            when('/question/:id',{
+                templateUrl: 'template/answerQuestion.html',
+                controller: 'editQuestionController'
+            }).when('/gallery',{
+                templateUrl: 'template/gallery.html',
+                controller: 'listActivityController'
+            }).when('/gallery/:id',{
+                templateUrl: 'template/album.html',
+                controller: 'editActivityController'
+            }).
+            otherwise({redirectTo: '/home'});
+    }]);
 
-labApp.config(function($translateProvider){
-    $translateProvider.useUrlLoader('/messageBundle');
-    $translateProvider.useStorage('UrlLanguageStorage');
-    $translateProvider.preferredLanguage('en');
-    $translateProvider.fallbackLanguage('en');
-})
 
-labApp.config(['flowFactoryProvider', function (flowFactoryProvider) {
-    flowFactoryProvider.defaults = {
-        target: '',
-        permanentErrors: [ 500, 501],
-        maxChunkRetries: 1,
-        chunkRetryInterval: 5000,
-        simultaneousUploads: 4,
-        singleFile: false
-    };
-    flowFactoryProvider.on('catchAll', function (event) {
-        console.log('catchAll', arguments);
-    });
-    // Can be used with different implementations of Flow.js
-    // flowFactoryProvider.factory = fustyFlowFactory;
-}]);
-
-labApp.config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider){
+prejectApp.config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider){
     /* Register error provider that shows message on failed requests or redirects to login page on
      * unauthenticated requests */
     $httpProvider.interceptors.push(function($q,$rootScope,$location){
@@ -68,7 +89,7 @@ labApp.config(['$locationProvider', '$httpProvider', function($locationProvider,
                 var url = config.url;
 
                 if (status == 401){
-                    $location.path("/listProduct");
+                    $location.path("/home");
                 }else{
                     $rootScope.error = method + " on " + url + " failed with status " + status;
                 }
@@ -120,25 +141,34 @@ labApp.config(['$locationProvider', '$httpProvider', function($locationProvider,
         return $rootScope.user.roles[role];
     }
 
-    $rootScope.logout = function(){
-        //delete $rootScope.shoppingCart;
+    $rootScope.logout = function() {
         delete $rootScope.user;
         delete $rootScope.authToken;
-
         $cookieStore.remove('authToken');
-        $location.path("/listProduct");
+        $location.path("/home")
     }
 
     /* Try getting valid user from cookie or go to login page */
     var originalPath = $location.path();
-    $location.path("/listProduct");
+    $location.path("/home");
     var authToken = $cookieStore.get('authToken');
     if (authToken != undefined){
         $rootScope.authToken = authToken;
-        UserSerivce.get(function(user){
+        UserService.get(function(user){
             $rootScope.user = user;
             $location.path(originalPath);
         })
     }
     $rootScope.initialized = true;
 });
+
+prejectApp.config(function($translateProvider){
+    $translateProvider.useUrlLoader('/messageBundle');
+    $translateProvider.useStorage('UrlLanguageStorage');
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.fallbackLanguage('en');
+})
+
+prejectApp.config(['$compileProvider', function($compileProvider) {
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|data):/);
+}]);

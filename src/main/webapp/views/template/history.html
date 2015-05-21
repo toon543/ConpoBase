@@ -1,0 +1,28 @@
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="editSuccess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    <label translate>text.SuccessEditHistory</label>
+</div>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading" translate>menubar.history</div>
+    <div class="panel-body">
+        <div class="col-lg-4" >
+        </div>
+        <div class="col-lg-6" >
+            <table class="table table-hover">
+                <tr ng-repeat="history in historys">
+                    <td>{{history.description}}</td>
+                    <td >
+                        <div ng-repeat="image in history.images" class="text-center" >
+                            <img ng-src="data:{{image.contentType}};base64,{{image.content}}" class="thumbnail">
+                        </div>
+                    </td>
+                    <td><a ng-href="#/history/{{history.id}}"><button class="btn btn-default" ng-show="hasRole('admin')" translate>button.edit</button></a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
